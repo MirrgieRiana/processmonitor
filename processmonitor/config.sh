@@ -6,3 +6,6 @@ backup_exclusions="
   'excluded2/*'
 "
 stop_operator=stop
+pipe1_file=_pipe1
+pipe2_file=_pipe2
+lock_file=_lock
