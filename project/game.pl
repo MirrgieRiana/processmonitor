@@ -4,10 +4,12 @@ open $log, ">", "latest.log";
 sub out( $ ) {
 	print "$_[0]\n";
 	print $log "STDOUT: $_[0]\n";
+	flush $log;
 }
 sub err( $ ) {
 	print STDERR "$_[0]\n";
 	print $log "STDERR: $_[0]\n";
+	flush $log;
 }
 
 $SIG{INT} = sub {
