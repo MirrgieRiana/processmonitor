@@ -10,7 +10,6 @@ sub err( $ ) {
 	print $log "STDERR: $_[0]\n";
 }
 
-
 $SIG{INT} = sub {
 	err "INT!!!!!";
 	exit;
