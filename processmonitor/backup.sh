@@ -17,7 +17,7 @@ archive="$(cd "$project_dir"; cd "$backup_dir"; echo "$(pwd)/${backup_base_name}
 echo "Archive='$archive'"
 
 # inclusions
-inclusions="'.'"
+inclusions="."
 echo "Inclusions='$inclusions'"
 
 # exclusions
@@ -28,7 +28,7 @@ command="${command} -y"
 command="${command} -r '$archive'"
 command="${command} '$inclusions'"
 command="${command} $(perl -e '$ARGV[0] =~ /\A\s*\Z/ ? print "" : print "-x $ARGV[0]"' "$backup_exclusions")"
-echo "Command='$command'"
+echo "Command=$command"
 
 # execute
 (cd "$project_dir"; eval $command)
