@@ -1,6 +1,8 @@
 project_dir=../project
 command="perl game.pl"
 log_file="latest.log"
+backup_base_name=game
+backup_dir=../_backup
 backup_exclusions="
   'excluded/*'
   'excluded2/*'
