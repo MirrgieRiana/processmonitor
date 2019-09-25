@@ -28,6 +28,8 @@ $SIG{TERM} = sub {
 	exit;
 };
 
+out "START!";
+
 while ($a = <>) {
 	chomp $a;
 	if ($a eq "stop") {
