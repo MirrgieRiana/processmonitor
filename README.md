@@ -108,3 +108,68 @@ $`bash ⚙isup.sh`は、upされている状態ならば終了コード0を返�
 `bash ⚙backup.sh`を呼び出すと対象のプロセスが置いてあるディレクトリを丸ごとzip圧縮する。
 アーカイブの格納場所等の設定は📝config.shで行う。
 アーカイブに含めたくないファイルを指定することもできる。
+
+# インストール
+
+## Linux環境において、設置対象のディレクトリを用意し、カレントディレクトリにする。
+
+Windows Subsystem for LinuxによってマウントしたWindows上のフォルダは、パイプなどが設置できないため、コンフィグを設定する必要がある。
+
+## ファイルを配置
+
+- 設置対象のディレクトリ$ `git clone https://github.com/MirrgieRiana/processmonitor.git`
+- 設置対象のディレクトリ$ `mv processmonitor/processmonitor/* .`
+
+この時点で、カレントディレクトリ直下に大量のスクリプトファイルが並ぶ。
+
+## コンフィグの設定
+
+- 設置対象のディレクトリ$ `nano config.sh`
+
+```
+project_dir=../project
+command="perl game.pl"
+log_file="latest.log"
+backup_base_name=game
+backup_dir=../_backup
+backup_exclusions="
+  'excluded/*'
+  'excluded2/*'
+"
+stop_operator=stop
+pipe1_file=_pipe1
+pipe2_file=_pipe2
+lock_file=_lock
+```
+
+対象のアプリケーションが置かれているパスを`project_dir`に指定する。
+相対パスにした場合、スクリプトが置いてある場所からの相対パスになる。
+アプリケーションはスクリプトが置いてあるディレクトリ内に設置してもよい。
+
+コマンドを`command`に指定する。
+空白を含む値は`"`で囲むこと。
+このコマンドは`project_dir`上で実行される。
+
+ログファイルが置かれる場所を`log_file`に指定する。
+`project_dir`からの相対パスとして記述する。
+例えば、`${project_dir}/logs/log.txt`がログファイルならば、`log_file=logs/log.txt`と書けばよい。
+
+`backup_base_name`・`backup_dir`・`backup_exclusions`はバックアップの動作を設定する項目である。
+`backup_base_name`はZIPファイルの名前に使われる。
+実際にはこの文字列にタイムスタンプと拡張子がさらに付与されるので、ベースとなる名前だけを記述すればよい。
+`backup_dir`は、スクリプトファイルからの相対位置で指定する。
+`backup_exclusions`は、バックアップから除外したいパスを、`project_dir`内でのパスとして記述する。
+ただし、ディレクトリ名は末尾に`/*`を付け、ファイル名にマッチするようにしなければならない。
+更に`'`で囲み、`*`の展開を防止ししなければならない。
+空白文字で区切ることで、0個以上の項目を指定することができる。
+
+`stop_operator`は、そのアプリケーションを閉じるために標準入力から与えるコマンドである。
+アプリケーションにそのような機能がなければ、停止させることはできない。
+
+`pipe1_file`・`pipe2_file`・`lock_file`は、スクリプトの動作上必要となるファイルを設置する場所を指定する。
+これはスクリプトファイルからの相対パスで表される。
+`pipe`とあるものはパイプで、`lock`とあるものは通常ファイルである。
+パイプを設置できるファイルシステムは限られるため、設置できない環境に置く場合は別所にパイプを置く場所を確保する必要がある。
+これらのファイルはスクリプトの動作上、作成されただけで編集されることがないため、再起動で初期化されるディレクトリ上に配置してもよい。
+
+
