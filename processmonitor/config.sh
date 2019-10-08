@@ -1,4 +1,4 @@
-project_dir=../project
+project_dir=../application
 command="perl game.pl"
 log_file="latest.log"
 backup_base_name=game
