@@ -3,7 +3,6 @@ eval $(cat config.sh)
 
 # backup dir
 (
-	cd "$project_dir"
 	if [ ! -d "$backup_dir" ]; then
 		mkdir -p "$backup_dir" || exit $?
 	fi
@@ -13,7 +12,7 @@ eval $(cat config.sh)
 timestamp="$(date -u -d '9 hour' +'%Y%m%d%H%M%S')"
 
 # archive name
-archive="$(cd "$project_dir"; cd "$backup_dir"; echo "$(pwd)/${backup_base_name}_${timestamp}.zip")"
+archive="$(cd "$backup_dir"; echo "$(pwd)/${backup_base_name}_${timestamp}.zip")"
 echo "Archive='$archive'"
 
 # inclusions
